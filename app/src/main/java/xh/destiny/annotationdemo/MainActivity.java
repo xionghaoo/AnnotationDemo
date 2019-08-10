@@ -6,7 +6,7 @@ import android.util.Log;
 
 import xh.destiny.processor.Greet;
 
-@Greet({"Harry", "Ron", "Hermione"})
+@Greet({"Apple", "Chocolate", "Hermione"})
 public class MainActivity extends AppCompatActivity {
 
     @Override
