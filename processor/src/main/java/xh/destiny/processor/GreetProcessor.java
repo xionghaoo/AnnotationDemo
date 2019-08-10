@@ -1,7 +1,12 @@
 package xh.destiny.processor;
 
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
+
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +17,7 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
@@ -35,7 +41,7 @@ public class GreetProcessor extends AbstractProcessor {
 
         if (packageName == null) return false;
 
-        StringBuilder builder = new StringBuilder()
+        /*StringBuilder builder = new StringBuilder()
                 .append("package " + packageName + ";\n\n")
                 .append("public class Greeter {\n\n")
                 .append("   public static String hello() {\n")
@@ -51,17 +57,43 @@ public class GreetProcessor extends AbstractProcessor {
 
         builder.append("!\";\n")
                 .append("   }\n")
-                .append("}\n");
+                .append("}\n");*/
+
+        // 2.构造java代码
+        MethodSpec hello = MethodSpec.methodBuilder("hello")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .returns(String.class)
+                .addStatement("return $S", "hello " + getFormattedNames(names) + "!")
+                .build();
+
+        TypeSpec greeter = TypeSpec.classBuilder("Greeter")
+                .addModifiers(Modifier.PUBLIC)
+                .addMethod(hello)
+                .build();
+
+        JavaFile javaFile = JavaFile.builder(packageName, greeter).build();
 
         try {
             JavaFileObject javaFileObject = processingEnv.getFiler().createSourceFile(packageName + ".Greeter");
             Writer writer = javaFileObject.openWriter();
-            writer.write(builder.toString());
+            writer.write(javaFile.toString());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return false;
+    }
+
+    private String getFormattedNames(String[] names) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < names.length; i++) {
+            if (i == 0) {
+                builder.append(names[i]);
+            } else {
+                builder.append(", ").append(names[i]);
+            }
+        }
+        return builder.toString();
     }
 }
