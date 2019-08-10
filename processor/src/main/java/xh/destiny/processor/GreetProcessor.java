@@ -22,6 +22,7 @@ import javax.tools.JavaFileObject;
 public class GreetProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnv) {
+        // 1.获取类型信息
         Collection<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(Greet.class);
         List<TypeElement> types = ElementFilter.typesIn(annotatedElements);
         String packageName = null;
@@ -35,6 +36,7 @@ public class GreetProcessor extends AbstractProcessor {
 
         if (packageName == null) return false;
 
+        // 2.构造Java代码
         StringBuilder builder = new StringBuilder()
                 .append("package " + packageName + ";\n\n")
                 .append("public class Greeter {\n\n")
@@ -53,6 +55,7 @@ public class GreetProcessor extends AbstractProcessor {
                 .append("   }\n")
                 .append("}\n");
 
+        // 3.生成Java源文件
         try {
             JavaFileObject javaFileObject = processingEnv.getFiler().createSourceFile(packageName + ".Greeter");
             Writer writer = javaFileObject.openWriter();
