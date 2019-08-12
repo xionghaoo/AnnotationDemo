@@ -1,5 +1,5 @@
 # AnnotationDemo
-Java自定义注解处理器
+Android自定义注解处理器
 
 ## 代码生成
 
