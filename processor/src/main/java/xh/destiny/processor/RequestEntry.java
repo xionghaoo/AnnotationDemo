@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.METHOD)
-public @interface RetrofitPostRequest {
+public @interface RequestEntry {
     String value() default "";
 }

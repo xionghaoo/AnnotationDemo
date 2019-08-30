@@ -1,12 +1,14 @@
 package xh.destiny.annotationdemo;
 
-import xh.destiny.processor.RetrofitPostRequest;
+import java.util.ArrayList;
+
+import xh.destiny.processor.RequestEntry;
 
 public class Repository {
 
-    @RetrofitPostRequest("Hello")
-    public void getHello(String a, int b) {
-
+    @RequestEntry("Login")
+    public void requestHello(String name, ArrayList<String> ids) {
+        new _LoginEntry(name, ids);
     }
 
 }
