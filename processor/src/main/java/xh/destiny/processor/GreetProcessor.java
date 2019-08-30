@@ -1,17 +1,21 @@
 package xh.destiny.processor;
 
+import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -25,7 +29,25 @@ import javax.tools.JavaFileObject;
 
 @SupportedAnnotationTypes("xh.destiny.processor.Greet")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
+@AutoService(Processor.class)
 public class GreetProcessor extends AbstractProcessor {
+
+//    @Override
+//    public Set<String> getSupportedAnnotationTypes() {
+//        Set<String> types = new LinkedHashSet<>();
+//        for (Class<? extends Annotation> annotation : getSupportedAnnotations()) {
+//            types.add(annotation.getCanonicalName());
+//        }
+//        return super.getSupportedAnnotationTypes();
+//    }
+//
+//    private Set<Class<? extends Annotation>> getSupportedAnnotations() {
+//        Set<Class<? extends Annotation>> annotations = new LinkedHashSet<>();
+//
+//        annotations.add(Greet.class);
+//        return annotations;
+//    }
+
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnv) {
         Collection<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(Greet.class);
